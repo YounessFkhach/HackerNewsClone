@@ -5,7 +5,11 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "axios": "^0.17.1",
+    "express-jwt": "^5.3.0",
     "include-all": "^1.0.0",
+    "machinepack-emailaddresses": "^0.4.0",
+    "machinepack-passwords": "^2.3.0",
     "rc": "1.0.1",
     "sails": "~0.12.14",
     "sails-disk": "~0.10.9"
