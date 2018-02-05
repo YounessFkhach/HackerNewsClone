@@ -3,6 +3,7 @@ import {
     fetchNew,
     fetchTopics
 } from '../api'
+import { login, logout, getUser } from '../api/auth'
 
 export default {
     FETCH: async ({
@@ -61,7 +62,22 @@ export default {
         }
     },
 
-    LOGIN: ({ state, commit, dispatch }, { router }) => {
+    GET_USER: async ({ commit }) => {
+      var user = await getUser()
+      if(user){
+        commit({
+          type: 'SET_USER',
+          user
+        })
+      }
+    },
 
+    LOGOUT: async ({ commit }) => {
+      try {
+        await logout()
+        commit('LOGOUT')
+      } catch (error) {
+        console.log(error)
+      }
     }
 }

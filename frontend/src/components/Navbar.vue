@@ -5,11 +5,19 @@
             <img class="logo" src="../assets/logo.png" alt="HN">
         </router-link>
         <div class="nav-menu">
-            <div>
-                <router-link to="/login">
-                    <a href="/login">Login</a>
-                </router-link>
+            <div v-if="!user">
+              <router-link to="/login">
+                <a href="/login">Login</a>
+              </router-link>
             </div>
+            <div v-else>
+              <router-link to="/profile">
+                <a href="/profile">{{ user.first_name }}</a>
+              </router-link>
+            </div>
+            <div v-if="user" @click="logout">
+                <a >Logout</a>
+              </div>
         </div>
 
     </div>
@@ -21,6 +29,11 @@ export default {
     data: () => ({
 
     }),
+    computed: {
+      user () {
+        return this.$store.state.user
+      }
+    },
     methods: {
         fetch () {
             this.$store.dispatch({
@@ -31,6 +44,10 @@ export default {
         },
         open (url) {
             this.$router.go('/login')
+        },
+        logout(){
+          this.$store.dispatch('LOGOUT')
+          this.$router.push('/')
         }
     }
 }
@@ -65,10 +82,13 @@ export default {
     width: 100%;
     text-align: right;
 }
-.nav-menu span {
-    font-size: medium;
-    /* font-weight: 600; */
+
+.nav-menu div {
+    display: inline-block;
+    margin-left:  20px;
+    cursor: pointer;
 }
+
 a, a:visited{
     text-decoration: none;
     color: inherit;

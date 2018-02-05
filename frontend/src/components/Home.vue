@@ -5,6 +5,12 @@
         <div :class="{ active: isActiveTab('top')}" @click="setActive('top')">Top</div>
         <div :class="{ active: isActiveTab('new')}" @click="setActive('new')">New</div>
         <div :class="{ active: isActiveTab('favorites')}" @click="setActive('favorites')">Favorites</div>
+        blabla
+        <div class="float-right submit">
+          <router-link to="/submit">
+            <a href="/submit">Submit</a>
+          </router-link>
+        </div>
     </div>
 
     <!-- content -->
@@ -104,6 +110,13 @@ export default {
 
 .fade-leave-to {
     opacity: 0;
+}
+
+.flaot-right {
+  float: right;
+}
+.submit {
+  background-color: #ececec;
 }
 
 </style>

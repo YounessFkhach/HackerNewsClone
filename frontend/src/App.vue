@@ -14,6 +14,9 @@ export default {
   components: {
     Navbar
   },
+  beforeMount(){
+    this.$store.dispatch('GET_USER')
+  }
 }
 </script>
 

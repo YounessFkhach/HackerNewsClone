@@ -14,12 +14,17 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-    methods: {
-        login () {
-            location.href = 'https://www.facebook.com/v2.12/dialog/oauth?client_id=530745817303993&&response_type=code&redirect_uri=http://localhost:1337/auth/login'
-        }
-    }
+  data: () => ({
+    
+  }),
+  methods: {
+      login () {
+          // location.href = 'https://www.facebook.com/v2.12/dialog/oauth?client_id=530745817303993&&response_type=code&redirect_uri=http://localhost:1337/auth/login'
+          location.href = 'http://192.168.1.66:1337/auth/signin'
+      }
+  }
 }
 </script>
 

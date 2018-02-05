@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL: 'https://hacker-news.firebaseio.com/v0',
+    baseURL: 'http://192.168.1.66:1337/',
     timeout: 10000,
-    withCredentials: false,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
     }

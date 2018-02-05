@@ -6,25 +6,20 @@
  */
 
 var axios = require('axios')
+var promisify = require('../tools/promisify').promisify
 
 conf = {
   client_id: '530745817303993',
-  redirect_uri: 'http://localhost:1337/auth/login',
+  redirect_uri: 'http://192.168.1.66:1337/auth/login',
   client_secret: '006152f869bb21fa43cc3f11301c2220'
 }
 
-function promisify(fn){
-  return new Promise(function(resolve, reject) {
-    fn.exec((err, res) => {
-      if(err) reject(err)
-      else resolve(res)
-    })
-  })
-}
-
 module.exports = {
-  login: async (req, res) => {
+  signin: (req, res) => {
+    res.redirect('https://www.facebook.com/v2.12/dialog/oauth?client_id=530745817303993&&response_type=code&redirect_uri=http://192.168.1.66:1337/auth/login')
+  },
 
+  login: async (req, res) => {
     // this will be called back by facebook api
     var code = req.param('code')
 
@@ -53,22 +48,35 @@ module.exports = {
       delete userData.picture
 
       userData.access_token = access_token
+      userData.full_name = userData.first_name + ' ' + userData.last_name
 
       // if the user doesn't exist already we will create it.
       var user = await promisify(User.findOrCreate({ uid: userData.uid }, userData ))
 
       // save the user in the session
-      req.session.authenticated = user
+      req.session.user = user
+      req.session.authenticated = true
+      res.send()
+      console.log(user.first_name, user.last_name)
 
       // finally we redirect to the home page
-      res.redirect('http://localhost:8080/home')
+      res.redirect('http://192.168.1.66:8080/')
+      // res.redirect('back')
     } catch (err) {
       return res.serverError(err)
     }
   },
 
-  logout(req, res)  {
+  user: (req, res) => {
+    res.json({
+      user: req.session.user
+    })
+  },
 
-  }
+  logout(req, res)  {
+    req.session.authenticated = null
+    res.status(200)
+    res.send()
+  },
 };
 

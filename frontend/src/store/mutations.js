@@ -21,10 +21,13 @@ export default {
         state.fetching = payload.fetching;
         console.log("fetching in toggled", payload.fetching)
     },
-    LOGIN: (state, payload) => {
-        state.User = payload.User
+    SET_USER: (state, payload) => {
+      console.log("setting user", payload.user)
+      state.user = payload.user
     },
     LOGOUT: (state, payload) => {
-        state.User = {}
+      console.log("clearing out the user info")
+      state.user = null
+      // todo
     }
 }

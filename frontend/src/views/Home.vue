@@ -2,9 +2,18 @@
 <div class="tabs">
     <!-- nav -->
     <div class="nav">
+      <div class="pages">
         <div :class="{ active: isActiveTab('top')}" @click="setActive('top')">Top</div>
         <div :class="{ active: isActiveTab('new')}" @click="setActive('new')">New</div>
         <div :class="{ active: isActiveTab('favorites')}" @click="setActive('favorites')">Favorites</div>
+      </div>
+      <div class="align-right">
+        <router-link to="/submit">
+          <div class="float-right nav-btn submit">
+            <a href="/submit">Submit</a>
+          </div>
+        </router-link>
+      </div>
     </div>
 
     <!-- content -->
@@ -76,11 +85,17 @@ export default {
     }
 }
 .nav {
-    margin: 30px 60px;
+    margin: 30px 0px 30px 60px;
     font-size: 9pt;
     color: #444444;
+    display: grid;
+    grid-template-columns: auto 20%;
 }
-.nav div {
+.pages {
+  height: 100%;
+  width: 100%;
+}
+.pages div, .nav-btn {
     display: inline;
     background-color: #ffffff;
     border: 0;
@@ -104,6 +119,21 @@ export default {
 
 .fade-leave-to {
     opacity: 0;
+}
+
+.submit {
+  width: fit-content;
+  background-color: #f06200;
+  color: white;
+  font-weight: 600;
+}
+.align-right {
+  text-align: right;
+}
+
+a, a:visited{
+    text-decoration: none;
+    color: inherit;
 }
 
 </style>
