@@ -11,7 +11,7 @@ export default {
         commit,
         dispatch
     }, { activeTab, route }) => {
-        let topicIds = []
+        let topics = []
         let page = Number(route.params.page) || 1
         commit({
             type: 'TOGGLE_FETCHING',
@@ -19,47 +19,27 @@ export default {
         })
         switch (activeTab) {
             case 'top':
-                topicIds = await fetchTop(page)
+                topics = await fetchTop(page)
+                commit({
+                  type: 'SET_TOP',
+                  topics
+                })
                 break;
             case 'new':
-                topicIds = await fetchNew(page)
+                topics = await fetchNew(page)
+                commit({
+                  type: 'SET_NEW',
+                  topics
+                })
                 break;
                 // ToDo favorites
             default:
                 break;
         }
-        dispatch({
-            type: 'FETCH_TOPICS',
-            topicIds: topicIds,
-            activeTab: activeTab
-        })
-    },
-
-    FETCH_TOPICS: async ({
-        commit
-    }, payload) => {
-        const topics = (await fetchTopics(payload.topicIds)).map(elem => elem.data)
         commit({
-            type: 'TOGGLE_FETCHING',
-            fetching: false
-        })
-        switch (payload.activeTab) {
-            case 'top':
-                commit({
-                    type: 'SET_TOP',
-                    topics
-                })
-                break;
-            case 'new':
-                commit({
-                    type: 'SET_NEW',
-                    topics
-                })
-                break;
-                // ToDo favorites
-            default:
-                break;
-        }
+          type: 'TOGGLE_FETCHING',
+          fetching: false
+      })
     },
 
     GET_USER: async ({ commit }) => {

@@ -8,7 +8,7 @@
             {{ topic.score }}
         </div>
     </div>
-    <div class="card" @click="clicked">
+    <div class="card" @click="show">
         <div class="header">
             <div class="title">
                 <a @click.prevent="open(topic.url, $event)" :href="topic.url" target="_blank">
@@ -24,7 +24,7 @@
                 {{ topic.descendants | commentiz }}
             </div>
             <div class="author">
-                submited by <span>{{ topic.by }}</span>
+                submited by <span>{{ topic.user_name }}</span>
             </div>
         </div>
     </div>
@@ -39,20 +39,22 @@ export default {
     props: ['topic', 'index'],
     filters: {
         domainiz (url) {
-            return url.split('/')[2].replace('www.', '')
+          var a = url.split('/')[2]
+          if(a) url = a
+          return url.replace('www.', '')
         },
         commentiz (num) {
             return num + ( num != 1 ? " comments" : " comment" )
         }
     },
     methods: {
-        clicked () {
-            this.$emit('clicked')
-        },
-        open (url, e) {
-            window.open(url, '_blank');
-            e.stopPropagation()
-        }
+      show () {
+        this.$router.push('/topic/' + this.topic.id)
+      },
+      open (url, e) {
+          window.open(url, '_blank');
+          e.stopPropagation()
+      }
     },
     mounted(){
     }

@@ -41,7 +41,7 @@ module.exports = {
       })).data
 
       // change the object structure to  save it
-      userData.uid = userData.id
+      userData.fbid = userData.id
       delete userData.id
 
       userData.profile_pic = userData.picture.data.url
@@ -51,7 +51,7 @@ module.exports = {
       userData.full_name = userData.first_name + ' ' + userData.last_name
 
       // if the user doesn't exist already we will create it.
-      var user = await promisify(User.findOrCreate({ uid: userData.uid }, userData ))
+      var user = await promisify(User.findOrCreate({ fbid: userData.fbid }, userData ))
 
       // save the user in the session
       req.session.user = user

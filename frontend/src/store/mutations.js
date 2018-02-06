@@ -22,7 +22,7 @@ export default {
         console.log("fetching in toggled", payload.fetching)
     },
     SET_USER: (state, payload) => {
-      console.log("setting user", payload.user)
+      console.log("setting user", payload.user.id)
       state.user = payload.user
     },
     LOGOUT: (state, payload) => {

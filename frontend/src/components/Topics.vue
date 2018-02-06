@@ -1,6 +1,5 @@
 <template>
 <div class="list">
-    <topic v-if="showTopic"></topic>
     <transition name="fade">
         <div class="loader" v-show="loading">
             <icon name="spinner" pulse></icon>
@@ -12,8 +11,7 @@
                         :key="topic.id"
                         :topic="topic"
                         :index="index"
-                        class="separated"
-                        @clicked="toggleTopic(topic)" ></topic-card>
+                        class="separated"></topic-card>
         </transition-group>
     </div>
 </div>
@@ -21,7 +19,6 @@
 
 <script>
 import TopicCard from './TopicCard'
-import Topic from './Topic'
 
 export default {
     data: ()=>({
@@ -40,8 +37,7 @@ export default {
         }
     },
     components: {
-        TopicCard,
-        Topic
+        TopicCard
     }
 }
 </script>

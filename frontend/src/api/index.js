@@ -1,15 +1,15 @@
-import fakePortal from './MockupService'
-import portal from './topicsService'
+import Portal from './topicsService'
 
 export async function fetchTop(page){
-    const res = await fakePortal.get('topstories.json')
+    const res = await Portal.get('topic')
     const start = (page - 1) * 25
     const end = start + 25
+    console.log(res)
     return res.data.slice(start,end)
 }
 
 export async function fetchNew(page){
-    const res = await fakePortal.get('newstories.json')
+    const res = await Portal.get('topic')
     const start = (page - 1) * 25
     const end = start + 25
     return res.data.slice(start,end)
@@ -20,17 +20,21 @@ export async function fetchTopics(ids){
 }
 
 export function fetchTopic(id){
-    return fakePortal.get(`item/${id}.json`)
+    return Portal.get(`topic/${id}`)
 }
 
 
 export async function createTopic(topic){
   try {
     console.log("creating: ", topic)
-    var res = await portal.post('topic', { topic })
+    var res = await Portal.post('topic', { topic })
     return res.data;
   } catch (error) {
     console.log(error)
     return null
   }
+}
+
+export function fetchComment(id){
+  return Portal.get(`comment/${id}`)
 }

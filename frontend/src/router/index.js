@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import Submit from '@/views/Submit'
+import Topic from '@/views/Topic'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
       path: '/submit',
       name: 'submit',
       component: Submit
+    },
+    {
+      path: '/topic/:id',
+      name: 'topic',
+      component: Topic
     },
   ]
 })

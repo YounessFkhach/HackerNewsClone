@@ -19,8 +19,33 @@ module.exports = {
     var createdTopic = await promisify(Topic.create(topic))
     // return it to the client
     res.json(createdTopic)
-  }
+  },
 
+  find: async (req, res) => {
+    var topics = await promisify(Topic.find())
+    topics = topics.map(async (topic) => {
+      var kids = await promisify(Comment.find({ parent: topic.id, type: 'sup' }))
+      topic.kids = kids.map(elem => elem.id)
+      topic.descendants = topic.kids.length
+      return topic
+    })
+    topics = await Promise.all(topics)
+    res.json(topics)
+  },
+
+  findOne: async (req, res) => {
+    var id = req.param('id')
+    var topic = await promisify(Topic.findOne({ id }))
+    if(!topic){
+      res.notFound('topic not found')
+      return
+    }
+    var kids = await promisify(Comment.find({ parent: topic.id, type: 'sup' }))
+    topic.kids = kids.map(elem => elem.id)
+    topic.descendants = topic.kids.length
+
+    res.json(topic)
+  }
 
 };
 

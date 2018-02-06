@@ -52,5 +52,12 @@ module.exports.policies = {
   '*': true,
   TopicController: {
     create: 'sessionAuth'
-  }
+  },
+  LikeController: {
+    create: 'sessionAuth'
+  },
+  // CommentController: {
+  //   create: 'sessionAuth'
+  // }
+
 };
