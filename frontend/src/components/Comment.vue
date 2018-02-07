@@ -1,57 +1,138 @@
 <template>
   <div class="wrapper">
-    <div class="upvotes">
-        <div class="upvote" :class="{ upvoted: false }">
-            <icon class="absolute-center" scale="1.3" name="sort-asc"></icon>
+    <div class="card" v-bind:style="{ borderLeftColor: border }">
+      <div class="header">
+        <div class="author">{{ comment.user_name }}</div>
+        <div class="score">{{ comment.score }}</div>
+      </div>
+      <div class="title">
+        {{ comment.text }}
+      </div>
+      <div class="menu">
+        <div :class="{ upvoted: false }">
+          <icon class="absolute-center" scale="1.3" name="caret-up"></icon>
         </div>
-        <div class="score">
-            {{ comment.score }}
+        <div @click="toggleReply">
+          <icon class="absolute-center" scale="1" name="reply"></icon>
         </div>
+
+        <!-- only show the expand buttons if there are kids -->
+        <div v-if="comment.ascendents" @click="toggleSubs" class="subs-toggle">
+          <icon v-if="showSubs" class="absolute-center" scale="1" name="minus-square"></icon>
+          <icon v-else class="absolute-center" scale="1" name="plus-square"></icon>
+        </div>
+      </div>
+      <form v-on:submit.prevent="submitReply">
+        <div class="reply" v-if="showReply">
+          <input :class="{ error: replyError }" type="text" v-model="reply" placeholder="write a reply">
+          <button type="submit">reply</button>
+        </div>
+      </form>
     </div>
-    <div class="card">
-        <div class="header">
-            <div class="title">
-                    {{ comment.text }}
-            </div>
-        </div>
+    <div class="sub" v-if="showSubs">
+      <comment v-for="id in comment.kids" :key="id" :id="id" :level="level+1"></comment>
     </div>
 </div>
 </template>
 
 <script>
-import { fetchComment } from '@/api'
+import { fetchComment, createComment } from '@/api'
+import Comment from '@/components/Comment'
 export default {
-  props: ['id'],
+  name: "comment",
+  props: ['id', 'level'],
   data: () => ({
-    comment: {}
+    comment: {},
+    showSubs: true,
+    showReply: false,
+    reply: '',
+    showErrors: false,
+    colors: ["#a00043", "#d63e51", "#f56c42", "#fcad62", "#ffe08b", "#e8f698", "#abdea3", "#69c2a6", "#3587bd"]
   }),
+  methods: {
+    toggleReply() {
+      // if not loggin in redirect to login screen
+      if(!this.$store.state.user){
+        this.$router.push('/login')
+        return
+      }
+      this.showReply = !this.showReply
+    },
+    toggleSubs(){
+      this.showSubs = !this.showSubs
+    },
+    submitReply: async function() {
+      // if not loggin in redirect to login screen
+      if(!this.$store.state.user){
+        this.$router.push('/login')
+        return
+      }
+      this.showErrors = true
+      if(this.replyError){
+        return
+      }
+      
+      try {
+        await createComment({
+          text: this.reply,
+          parent: this.id,
+          type: 'sub'
+        })
+            
+        this.comment = ''
+        console.log(this.id)
+        // update the comments
+        this.comment = (await fetchComment(this.id)).data
+        this.showErrors = false
+      } catch (error) {
+        console.log(error)
+      }
+      
+      // finally hide the reply input
+      this.showReply = false
+      this.reply = ''
+    }
+  },
+  computed: {
+    border() {
+      return this.colors[this.level]
+    },
+    replyError() {
+      return this.showErrors && !this.reply.length
+    }
+  },
   beforeMount: async function() {
+    this.showSubs = this.level < 8
     this.comment = (await fetchComment(this.id)).data
+  },
+  components: {
+    Comment
   }
 }
 </script>
 
 <style scoped>
 .wrapper {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 60px auto;
-    /* border-radius: 5px; */
     font-weight: 200;
     font-family: 'Source Sans Pro';
     font-size: 10pt;
+    /* padding: 5px; */
+    border-top: .1px solid #ffffffa0;
 }
-
+.card {
+  border-left-width: 3px;
+  border-left-style: solid;
+}
+.sub {
+  margin-left: 3px;
+}
 .header {
-    margin-bottom: 10px;
     text-align: left;
 }
 .title {
-    color: #444444;
+    color: #fff;
     display: inline;
-    font-size: 16pt;
-    font-weight: 600;
-    margin-right: 5px;
+    margin: 5px;
 }
 .domain {
     display: inline
@@ -65,41 +146,73 @@ export default {
     text-align: left;
 }
 .author {
-    text-align: right;
+    font-size: 10pt;
+    color: #f06200;
+    display: inline-block;
+    margin: 5px;
 }
-.author span {
-    font-weight: 600;
-    color: #e96262;
-}
-.upvotes {
-    text-align: center;
-}
-.upvote {
-    background-color: #ffffff;
-    color: #cecece;
-    width: 30px;
-    height: 34px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
+
 .upvote:hover {
-    box-shadow: 2px 4px 5px 0px #ececec;
+    color: #f06200;
 }
 .upvoted {
-    background-color: #f06200;
-    color: #ffffff;
+    color: #f06200;
 }
 
 .score {
-    font-size: 14pt;
-    font-weight: 600;
-    margin-top: 5px;
+  float: right;
+  margin: 5px;
 }
 .title {
-  color: white
+  color: black;
 }
 
+.menu {
+  height: inherit;
+  background-color: #e3e3e3;
+  text-align: right;
+}
+
+.menu div {
+  display: inline-block;
+  padding: 2px;
+  cursor: pointer;
+  margin: 0px 10px;
+}
+
+.menu div:hover {
+  color: #fff;
+}
+
+.error {
+  border: 1px solid red;
+}
+.subs-toggle {
+  float: left;
+  margin: 5px 0 0 2px !important;
+  padding: 0 !important;
+  height: fit-content;
+
+}
+.reply {
+  display: grid;
+  grid-template-columns: 90% auto;
+  background-color: #e3e3e3ff;
+  padding: 2px;
+}
+/* input, button {
+  height: 30px;
+  border-radius: 3px;
+  background-color: white;
+  color: #000;
+  border-style: none;
+} */
+button, input {
+  height: 30px;
+  color: #000;
+  background-color: white;
+  border-radius: 3px;
+  border-style: none;
+  margin: 2px;
+}
 </style>

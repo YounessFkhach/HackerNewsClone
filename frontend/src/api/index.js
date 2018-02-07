@@ -38,3 +38,14 @@ export async function createTopic(topic){
 export function fetchComment(id){
   return Portal.get(`comment/${id}`)
 }
+
+export async function createComment(comment){
+  try {
+    console.log("creating: ", comment)
+    var res = await Portal.post('comment', { ...comment })
+    return res.data;
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+}
