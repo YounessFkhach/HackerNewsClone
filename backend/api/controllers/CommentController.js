@@ -67,6 +67,15 @@ module.exports = {
     comment.kids = kids.map(kid => kid.id)
     comment.ascendents = comment.kids.length
 
+    // if user is logged in
+    // check if the topics are liked by the user or not
+    comment.liked = false
+    if(req.session.user){
+      var liked = await promisify(Like.findOne({ cid: comment.id, type: 'comment', uid: req.session.user.id}))
+      if(liked)
+        comment.liked = true
+    }
+
     res.json(comment)
   },
 };

@@ -49,3 +49,14 @@ export async function createComment(comment){
     return null
   }
 }
+
+export async function createLike(like){
+  try {
+    console.log("creating: ", like)
+    var res = await Portal.post('like', { ...like })
+    return res.data;
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+}

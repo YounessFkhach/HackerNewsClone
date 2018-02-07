@@ -11,6 +11,10 @@ module.exports = {
       type: "string",
       required: true
     },
+    type:{
+      type: 'string',
+      enum: ['topic', 'comment']
+    },
     cid: {
       type: "string",
       required: true

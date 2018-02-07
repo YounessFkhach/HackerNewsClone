@@ -27,6 +27,16 @@ module.exports = {
       var kids = await promisify(Comment.find({ parent: topic.id, type: 'sup' }))
       topic.kids = kids.map(elem => elem.id)
       topic.descendants = topic.kids.length
+
+      // if user is logged in
+      // check if the topics are liked by the user or not
+      topic.liked = false
+      if(req.session.user){
+        var liked = await promisify(Like.findOne({ cid: topic.id, type: 'topic', uid: req.session.user.id}))
+        if(liked)
+          topic.liked = true
+      }
+
       return topic
     })
     topics = await Promise.all(topics)
@@ -43,6 +53,15 @@ module.exports = {
     var kids = await promisify(Comment.find({ parent: topic.id, type: 'sup' }))
     topic.kids = kids.map(elem => elem.id)
     topic.descendants = topic.kids.length
+
+    // if user is logged in
+    // check if the topics are liked by the user or not
+    topic.liked = false
+    if(req.session.user){
+      var liked = await promisify(Like.findOne({ cid: topic.id, type: 'topic', uid: req.session.user.id}))
+      if(liked)
+        topic.liked = true
+    }
 
     res.json(topic)
   }

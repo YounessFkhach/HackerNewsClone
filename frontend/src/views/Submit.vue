@@ -53,6 +53,12 @@ export default {
       return !(this.titleError || this.urlError || this.dataError)
     },
     submit: async function() {
+      // check if the user is logged in
+      if(!this.$store.state.user){
+        this.$router.push('/login')
+        return
+      }
+
       // form validation
       this.showErrors = true
       if(!this.isValid())

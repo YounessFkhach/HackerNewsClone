@@ -54,10 +54,10 @@ module.exports.policies = {
     create: 'sessionAuth'
   },
   LikeController: {
-    create: 'sessionAuth'
+    // create: 'sessionAuth'
   },
-  // CommentController: {
-  //   create: 'sessionAuth'
-  // }
+  CommentController: {
+    create: 'sessionAuth'
+  }
 
 };

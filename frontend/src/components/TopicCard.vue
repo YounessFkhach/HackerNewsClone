@@ -1,7 +1,7 @@
 <template>
 <div class="wrapper">
     <div class="upvotes">
-        <div class="upvote" :class="{ upvoted: index%2 == 0 }">
+        <div class="upvote" :class="{ upvoted: topic.liked }" @click="like">
             <icon class="absolute-center" scale="1.3" name="sort-asc"></icon>
         </div>
         <div class="score">
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { createLike } from '@/api'
+
 export default {
     data: () => ({
 
@@ -48,6 +50,28 @@ export default {
         }
     },
     methods: {
+      like: async function() {
+        // check if the user is logged in
+        if(!this.$store.state.user){
+          this.$router.push('/login')
+          return
+        }
+
+        // if already liked just return
+        if(this.topic.liked){
+          return
+        }
+
+        try {
+          await createLike({
+            type: 'topic',
+            cid: this.topic.id
+          })
+          this.topic.liked = true
+        } catch (error) {
+          
+        }
+      },
       show () {
         this.$router.push('/topic/' + this.topic.id)
       },

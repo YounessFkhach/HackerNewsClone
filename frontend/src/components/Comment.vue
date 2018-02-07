@@ -9,7 +9,7 @@
         {{ comment.text }}
       </div>
       <div class="menu">
-        <div :class="{ upvoted: false }">
+        <div :class="{ upvoted: comment.liked }" @click="like">
           <icon class="absolute-center" scale="1.3" name="caret-up"></icon>
         </div>
         <div @click="toggleReply">
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { fetchComment, createComment } from '@/api'
+import { fetchComment, createComment, createLike } from '@/api'
 import Comment from '@/components/Comment'
 export default {
   name: "comment",
@@ -91,6 +91,28 @@ export default {
       // finally hide the reply input
       this.showReply = false
       this.reply = ''
+    },
+    like: async function() {
+      // check if the user is logged in
+      if(!this.$store.state.user){
+        this.$router.push('/login')
+        return
+      }
+
+      // if already liked just return
+      if(this.comment.liked){
+        return
+      }
+
+      try {
+        await createLike({
+          type: 'comment',
+          cid: this.comment.id
+        })
+        this.comment.liked = true
+      } catch (error) {
+        
+      }
     }
   },
   computed: {
@@ -181,7 +203,7 @@ export default {
 }
 
 .menu div:hover {
-  color: #fff;
+  color: #f06200;
 }
 
 .error {
