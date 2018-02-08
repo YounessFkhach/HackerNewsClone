@@ -11,7 +11,7 @@
     <div class="card" @click="show">
         <div class="header">
             <div class="title">
-                <a @click.prevent="open(topic.url, $event)" :href="topic.url" target="_blank">
+                <a @click.prevent="open(topic.url, $event)" :href="topic.url || '/topic/' + topic.id" target="_blank">
                     {{ topic.title }}
                 </a>
             </div>
@@ -85,7 +85,7 @@ export default {
         this.$router.push('/topic/' + this.topic.id)
       },
       open (url, e) {
-          window.open(url, '_blank');
+          window.open(url || '/topic/' + this.topic.id, '_blank');
           e.stopPropagation()
       }
     },
@@ -184,7 +184,8 @@ a:hover {
 
 /* Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */
 .wordwrap { 
-   word-wrap: break-word;      /* IE */
+   word-wrap: break-word;
+   color: black;      /* IE */
 }
 
 </style>
