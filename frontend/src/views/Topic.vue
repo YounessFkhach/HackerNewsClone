@@ -4,6 +4,7 @@
       <topic-card
         :key="topic.id"
         :topic="topic"
+        :showText="true"
         class="separated"></topic-card>  
     
     </transition>
@@ -20,7 +21,7 @@
           No comments yet
         </div>
         <div v-else>
-          <comment v-for="id in topic.kids" :key="id" :id="id" :level="0"></comment>
+          <comment v-for="id in topic.kids" :key="id" :id="id" :level="0" ></comment>
         </div>
     </div>
   </div>

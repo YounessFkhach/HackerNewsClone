@@ -70,7 +70,7 @@ export default {
       var res = await createTopic({
         title: this.title,
         url: this.url,
-        text: this.comment,
+        text: this.text,
       })
       this.title = this.url = this.text = ''
       

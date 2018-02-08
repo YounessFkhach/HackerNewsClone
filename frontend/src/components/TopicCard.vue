@@ -19,6 +19,9 @@
                 {{ topic.url | domainiz }}
             </div>
         </div>
+        <div v-if="showText && topic.text">
+          <p class="wordwrap">{{topic.text}}</p>
+        </div>
         <div class="footer">
             <div class="comments">
                 {{ topic.descendants | commentiz }}
@@ -40,7 +43,7 @@ export default {
     data: () => ({
 
     }),
-    props: ['topic', 'index'],
+    props: ['topic', 'index', 'showText'],
     filters: {
         domainiz (url) {
           var a = url.split('/')[2]
@@ -177,6 +180,11 @@ a:visited {
 }
 a:hover {
     color: black;
+}
+
+/* Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */
+.wordwrap { 
+   word-wrap: break-word;      /* IE */
 }
 
 </style>

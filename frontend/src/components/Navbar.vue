@@ -11,9 +11,8 @@
               </router-link>
             </div>
             <div v-else>
-              <router-link to="/profile">
-                <a href="/profile">{{ user.first_name }}</a>
-              </router-link>
+              <!-- todo add a profile vue -->
+              <a>{{ user.first_name }}</a>
             </div>
             <div v-if="user" @click="logout">
                 <a >Logout</a>
