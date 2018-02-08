@@ -35,7 +35,7 @@ export function fetchTopic(id) {
 
 export async function createTopic(topic) {
   try {
-    console.log("creating: ", topic)
+    // console.log("creating: ", topic)
     var res = await Portal.post('topic', {
       topic
     })
@@ -52,7 +52,7 @@ export function fetchComment(id) {
 
 export async function createComment(comment) {
   try {
-    console.log("creating: ", comment)
+    // console.log("creating: ", comment)
     var res = await Portal.post('comment', { ...comment
     })
     return res.data;
@@ -64,7 +64,7 @@ export async function createComment(comment) {
 
 export async function createLike(like) {
   try {
-    console.log("creating: ", like)
+    // console.log("creating: ", like)
     var res = await Portal.post('like', { ...like
     })
     return res.data;

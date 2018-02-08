@@ -83,7 +83,7 @@ export default {
         })
             
         this.comment = ''
-        console.log(this.id)
+        // console.log(this.id)
         // update the comments
         this.comment = (await fetchComment(this.id)).data
         this.showErrors = false
