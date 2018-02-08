@@ -50,6 +50,7 @@ export default {
     showReply: false,
     reply: '',
     showErrors: false,
+    // comments in the same level will have the same border color
     colors: ["#a00043", "#d63e51", "#f56c42", "#fcad62", "#ffe08b", "#e8f698", "#abdea3", "#69c2a6", "#3587bd"]
   }),
   methods: {

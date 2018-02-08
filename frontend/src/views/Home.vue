@@ -82,11 +82,7 @@ export default {
   font-family: "Source Sans Pro";
 }
 
-@media screen and (max-width: 768px) {
-  .tabs {
-    width: 90%;
-  }
-}
+
 .nav {
   margin: 30px 0px 30px 60px;
   font-size: 9pt;
@@ -140,4 +136,37 @@ a:visited {
   text-decoration: none;
   color: inherit;
 }
+
+.float-right {
+  float: right;
+}
+
+@media screen and (max-width: 900px) {
+  .tabs {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .nav {
+    width: 95%;
+    grid-template-columns: auto 30%;
+    margin: 30px 0px 30px 32px;
+  }
+  .pages div, .nav-btn {
+    display: block;
+  }
+
+}
+
+
+
+@media screen and (max-width: 400px) {
+  .nav {
+    width: 90%;
+    grid-template-columns: auto 40%;
+  }
+
+}
+
 </style>

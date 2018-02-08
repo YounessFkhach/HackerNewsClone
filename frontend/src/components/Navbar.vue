@@ -67,9 +67,9 @@ export default {
     justify-content: right;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 900px){
     .nav {
-        margin: 10px 5%;
+        margin: 10px 2%;
     }
 }
 .logo {

@@ -188,6 +188,12 @@ a:hover {
    color: black;      /* IE */
 }
 
+@media screen and (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 40px auto;
+  }
+}
+
 </style>
 
 

@@ -153,7 +153,7 @@ textarea {
 
 @media screen and (max-width: 768px){
   .container {
-    width: 90%;
+    width: 100%;
     margin: 10% 5%;
   }
   input, textarea, form div  {
