@@ -74,7 +74,7 @@ module.exports = {
   },
 
   logout(req, res)  {
-    req.session.authenticated = null
+    req.session.authenticated = false
     delete req.session.user
 
     res.status(200)

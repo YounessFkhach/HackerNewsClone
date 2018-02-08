@@ -49,16 +49,24 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
   // }
 
-  '*': true,
+  '*': false,
   TopicController: {
-    create: 'sessionAuth',
+    find: true,
+    findOne: true,
+    new: true,
     favorites: 'sessionAuth',
+    create: 'sessionAuth'
   },
   LikeController: {
-    create: 'sessionAuth',
+    create: 'sessionAuth'
   },
   CommentController: {
-    create: 'sessionAuth',
+    find: true,
+    findOne: true,
+    create: 'sessionAuth'
+  },
+  AuthController: {
+    '*': true,
   }
 
 };

@@ -71,7 +71,7 @@ export default {
   GET_USER: async ({
     commit
   }) => {
-    var user = await getUser()
+      var user = await getUser() 
     if (user) {
       commit({
         type: 'SET_USER',
@@ -86,6 +86,8 @@ export default {
     try {
       await logout()
       commit('LOGOUT')
+      // force a reload is the best way to clean the user data
+      location.href="/"
     } catch (error) {
       console.log(error)
     }

@@ -79,7 +79,7 @@ export default {
             
         this.comment = ''
         this.showErrors = false
-        console.log(this.topic.id)
+        // console.log(this.topic.id)
         this.topic = (await fetchTopic(this.topic.id)).data
       } catch (error) {
         console.log(error)
@@ -98,7 +98,7 @@ export default {
   beforeMount: async function () {
     var id = this.$route.params.id
     this.topic = await this.getTopic(id)
-    console.log(this.topic)
+    // console.log(this.topic)
   },
   components: {
     TopicCard,

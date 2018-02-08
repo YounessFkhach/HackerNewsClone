@@ -30,10 +30,10 @@ export default {
   },
   SET_TOTAL_PAGES: (state, payload) => {
     state.pages[payload.tab].totalPages = payload.totalPages
-    console.log(payload.tab + " total pages mutated to: " + payload.totalPages)
+    // console.log(payload.tab + " total pages mutated to: " + payload.totalPages)
   },
   CHANGE_PAGE: (state, payload) => {
     state.pages[payload.tab].page = payload.page
-    console.log(payload.tab + " current page mutated to:" + payload.page)
+    // console.log(payload.tab + " current page mutated to:" + payload.page)
   }
 }

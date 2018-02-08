@@ -75,7 +75,7 @@ export default {
       this.title = this.url = this.text = ''
       
       this.sent = true
-      console.log(res)
+      // console.log(res)
     }
   },
   computed: {
