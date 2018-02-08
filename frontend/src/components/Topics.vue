@@ -14,50 +14,92 @@
                         class="separated"></topic-card>
         </transition-group>
     </div>
+    <paginator :page="page" :max="totalPages" @left="goLeft" @right="goRight" ></paginator>
 </div>
 </template>
 
 <script>
-import TopicCard from './TopicCard'
+import TopicCard from "./TopicCard";
+import Paginator from "@/components/Paginator";
 
 export default {
-    data: ()=>({
-        showTopic: false
-    }),
-    props: ['topics'],
-    computed: {
-        loading () {
-            return this.$store.state.fetching
-        }
+  data: () => ({
+    showTopic: false
+  }),
+  props: ["tab"],
+  computed: {
+    loading() {
+      return this.$store.state.fetching;
     },
-    methods: {
-        toggleTopic (topic) {
-            console.log("topic toggled")
-            this.showTopic = !this.showTopic;
-        }
+    topics() {
+      return this.$store.state.topics[this.tab];
     },
-    components: {
-        TopicCard
+    page() {
+      return this.$store.state.pages[this.tab].page || 1;
+    },
+    totalPages() {
+      return this.$store.state.pages[this.tab].totalPages;
     }
-}
+  },
+  methods: {
+    update() {
+      this.$store.dispatch({
+        type: "FETCH",
+        activeTab: this.tab,
+        page: this.page
+      });
+      this.$router.push(`/home/${this.tab}/${this.page}`)
+    },
+    toggleTopic(topic) {
+      console.log("topic toggled");
+      this.showTopic = !this.showTopic;
+    },
+    goLeft() {
+      this.$store.commit({
+        type: "CHANGE_PAGE",
+        page: this.page - 1,
+        tab: this.tab
+      });
+      this.update()
+    },
+    goRight() {
+      this.$store.commit({
+        type: "CHANGE_PAGE",
+        page: parseInt(this.page) + 1,
+        tab: this.tab
+      });
+      this.update()
+    }
+  },
+  beforeMount: async function() {
+    this.$store.commit({
+      type: "CHANGE_PAGE",
+      page: parseInt(this.$route.params.page || this.page),
+      tab: this.tab
+    })
+    this.update()
+  },
+  components: {
+    TopicCard,
+    Paginator
+  }
+};
 </script>
 
 <style>
 .separated {
-    margin: 15px auto;
+  margin: 15px auto;
 }
 .loader {
-    text-align: center;
-    animation: all .3s ease-in-out;
+  text-align: center;
+  animation: all 0.3s ease-in-out;
 }
 .slide {
-    transition: translateY(-10px);
-    opacity: 0;
-    /* height: 0px; */
+  transition: translateY(-10px);
+  opacity: 0;
+  /* height: 0px; */
 }
 .flip-list-move {
   transition: transform 1s;
 }
-
-
 </style>

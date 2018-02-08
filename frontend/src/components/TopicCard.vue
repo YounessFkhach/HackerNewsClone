@@ -68,6 +68,7 @@ export default {
             cid: this.topic.id
           })
           this.topic.liked = true
+          this.topic.score++
         } catch (error) {
           
         }

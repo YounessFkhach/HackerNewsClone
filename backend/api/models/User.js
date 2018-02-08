@@ -33,6 +33,11 @@ module.exports = {
       type: 'string',
       required: true
     },
+    toJSON: function() {
+      var obj = this.toObject();
+
+      return obj;
+    }
   }
 };
 

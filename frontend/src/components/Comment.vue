@@ -5,8 +5,8 @@
         <div class="author">{{ comment.user_name }}</div>
         <div class="score">{{ comment.score }}</div>
       </div>
-      <div class="title">
-        {{ comment.text }}
+      <div class="title wordwrap">
+          {{ comment.text }}
       </div>
       <div class="menu">
         <div :class="{ upvoted: comment.liked }" @click="like">
@@ -110,6 +110,7 @@ export default {
           cid: this.comment.id
         })
         this.comment.liked = true
+        this.comment.score++
       } catch (error) {
         
       }
@@ -187,6 +188,11 @@ export default {
 }
 .title {
   color: black;
+}
+
+/* Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */
+.wordwrap { 
+   word-wrap: break-word;      /* IE */
 }
 
 .menu {

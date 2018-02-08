@@ -5,7 +5,7 @@
       <div class="pages">
         <div :class="{ active: isActiveTab('top')}" @click="setActive('top')">Top</div>
         <div :class="{ active: isActiveTab('new')}" @click="setActive('new')">New</div>
-        <div :class="{ active: isActiveTab('favorites')}" @click="setActive('favorites')">Favorites</div>
+        <div v-if="isLoggedIn" :class="{ active: isActiveTab('favorites')}" @click="setActive('favorites')">Favorites</div>
       </div>
       <div class="align-right">
         <router-link to="/submit">
@@ -19,106 +19,103 @@
     <!-- content -->
     <div class="content">
         <transition name="fade">
-            <topics key="1" class="list" v-if="isActiveTab('top')" :topics="topTopics"></topics>
-            <topics key="2" class="list" v-if="isActiveTab('new')" :topics="newTopics"></topics>
-            <!-- <div v-if="isActiveTab('favorites')">favorites</div> -->
+            <topics key="1" class="list" v-if="isActiveTab('top')" tab="top"></topics>
+            <topics key="2" class="list" v-if="isActiveTab('new')" tab="new"></topics>
+            <topics key="3" class="list" v-if="isActiveTab('favorites')" tab="favorites"></topics>            
         </transition>
     </div>
 </div>
 </template>
 
 <script>
-import Topics from '../components/Topics'
+import Topics from "../components/Topics";
 
 export default {
-    data: () => ({
-
-    }),
-    computed: {
-        topTopics(){
-            return this.$store.state.topics.top
-        },
-        newTopics(){
-            return this.$store.state.topics.new
-        },
-        activeTab(){
-            return this.$route.params.tab || 'top'
-        }
+  data: () => ({}),
+  computed: {
+    activeTab() {
+      return this.$store.state.activeTab;
     },
-    methods: {
-        setActive(val){
-            this.$store.dispatch({
-                type: 'FETCH',
-                activeTab: val,
-                route: this.$route
-            })
-            this.$router.push({ path: `/home/${val}` })
-        },
-        isActiveTab(val){
-            return this.activeTab === val
-        }
+    isLoggedIn() {
+      return this.$store.state.user;
+    }
+  },
+  methods: {
+    setActive(val) {
+      // if the user tries to reach favorites without loggin, we will redirect him to the loggin page
+      if (!this.isLoggedIn && val === "favorites") {
+        this.$router.push("/login");
+        return;
+      }
+      this.$store.commit({
+        type: 'SET_ACTIVE_TAB',
+        activeTab: val
+      })
+      this.$router.push(`/home/${val}`)
     },
-    components: {
-        Topics
-    },
-    beforeMount () {
-        this.$store.dispatch({
-            type: 'FETCH',
-            activeTab: this.activeTab,
-            route: this.$route
-        })
-    },
-}
+    isActiveTab(val) {
+      return this.activeTab === val;
+    }
+  },
+  components: {
+    Topics
+  },
+  beforeMount() {
+    this.setActive(this.$route.params.tab || 'top');
+  }
+};
 </script>
 
 <style scoped>
 .tabs {
-    width: 60%;
-    margin-left: auto; margin-right: auto;
-    padding-top: 1px;
-    font-family: 'Source Sans Pro';
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1px;
+  font-family: "Source Sans Pro";
 }
 
-@media screen and (max-width: 768px){
-    .tabs {
-        width: 90%;
-    }
+@media screen and (max-width: 768px) {
+  .tabs {
+    width: 90%;
+  }
 }
 .nav {
-    margin: 30px 0px 30px 60px;
-    font-size: 9pt;
-    color: #444444;
-    display: grid;
-    grid-template-columns: auto 20%;
+  margin: 30px 0px 30px 60px;
+  font-size: 9pt;
+  color: #444444;
+  display: grid;
+  grid-template-columns: auto 20%;
 }
 .pages {
   height: 100%;
   width: 100%;
 }
-.pages div, .nav-btn {
-    display: inline;
-    background-color: #ffffff;
-    border: 0;
-    padding: 10px 25px;
-    margin: 0 5px;
-    cursor: pointer;
-    box-shadow: 1px 2px 5px 0px #ececec;
+.pages div,
+.nav-btn {
+  display: inline;
+  background-color: #ffffff;
+  border: 0;
+  padding: 10px 25px;
+  margin: 0 5px;
+  cursor: pointer;
+  box-shadow: 1px 2px 5px 0px #ececec;
 }
 
 .active {
-    background-color: #ececec !important;
-    box-shadow: 0 0 0 0 !important;
+  background-color: #ececec !important;
+  box-shadow: 0 0 0 0 !important;
 }
 
 .list {
-    transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 .fade-enter {
-    opacity: 0;
+  opacity: 0;
 }
 
 .fade-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 
 .submit {
@@ -131,9 +128,9 @@ export default {
   text-align: right;
 }
 
-a, a:visited{
-    text-decoration: none;
-    color: inherit;
+a,
+a:visited {
+  text-decoration: none;
+  color: inherit;
 }
-
 </style>

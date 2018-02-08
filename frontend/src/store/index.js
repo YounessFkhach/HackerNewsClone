@@ -15,6 +15,20 @@ export function createStore() {
                 new: [],
                 favorites: []
             },
+            pages: {
+              top: {
+                page: 1,
+                totalPages: 1,
+              },
+              new: {
+                page: 1,
+                totalPages: 1,
+              },
+              favorites: {
+                page: 1,
+                totalPages: 1,
+              },
+            },
             activeTab: "top",
             fetching: false
         },

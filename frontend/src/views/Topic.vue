@@ -77,9 +77,9 @@ export default {
         })
             
         this.comment = ''
-        console.log(this.topic.id)
-        this.topic = await this.getTopic(this.topic.id)
         this.showErrors = false
+        console.log(this.topic.id)
+        this.topic = (await fetchTopic(this.topic.id)).data
       } catch (error) {
         console.log(error)
       }

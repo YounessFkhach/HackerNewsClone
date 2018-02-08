@@ -76,6 +76,10 @@ module.exports = {
         comment.liked = true
     }
 
+    //getting the score
+    var score = (await promisify(Like.find({ cid: comment.id, type: 'comment' }))).length
+    comment.score = score
+
     res.json(comment)
   },
 };
