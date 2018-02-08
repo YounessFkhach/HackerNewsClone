@@ -77,7 +77,6 @@ export default {
       page: parseInt(this.$route.params.page || this.page),
       tab: this.tab
     })
-    this.update()
   },
   components: {
     TopicCard,
@@ -92,11 +91,12 @@ export default {
 }
 .loader {
   text-align: center;
-  animation: all 0.3s ease-in-out;
+  animation: all 0.1s ease-in-out;
 }
 .slide {
+  animation: all 0.3s ease-in-out;
   transition: translateY(-10px);
-  opacity: 0;
+  opacity: 1;
   /* height: 0px; */
 }
 .flip-list-move {

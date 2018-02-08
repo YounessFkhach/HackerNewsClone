@@ -22,6 +22,7 @@
         <div class="footer">
             <div class="comments">
                 {{ topic.descendants | commentiz }}
+                • {{ topic.createdAt | humaniz }}
             </div>
             <div class="author">
                 submited by <span>{{ topic.user_name }}</span>
@@ -33,6 +34,7 @@
 
 <script>
 import { createLike } from '@/api'
+import twas from 'twas'
 
 export default {
     data: () => ({
@@ -47,6 +49,9 @@ export default {
         },
         commentiz (num) {
             return num + ( num != 1 ? " comments" : " comment" )
+        },
+        humaniz (createdAt) {
+            return twas((new Date(createdAt)).getTime())
         }
     },
     methods: {

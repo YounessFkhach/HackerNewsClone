@@ -8,7 +8,6 @@ var promisify = require('../tools/promisify').promisify
 
 module.exports = {
   create: async (req, res) => {
-    console.log("liking")
     var like = {}
     like.uid = req.session.user.id
     like.type = req.param('type')
@@ -27,7 +26,6 @@ module.exports = {
 
     // return it to the client
     res.json(createdLike)
-    console.log(createdLike)
   },
 
 };

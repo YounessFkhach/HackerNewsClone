@@ -25,6 +25,15 @@ module.exports = {
   },
 
   find: async (req, res) => {
+    // with this action we are going to serve the top posts
+    // ordered by the rank used in the official hacker news
+    // rank = (P-1) / (T+2)^G
+    // where:
+    // P = points of an item (and -1 is to negate submitters vote)
+    // T = time since submission (in hours)
+    // G = Gravity, defaults to 1.8 in news.arc
+
+
     var page = req.param('page') || 1
     const perPage = 20
     // this is not how the pagination should have been done,
@@ -54,7 +63,7 @@ module.exports = {
 
       // calculating the rank
       var passedHours = Math.abs((new Date(topic.createdAt)).getTime() - (new Date()).getTime()) / 36e5
-      topic.rank = topic.score / Math.pow(Math.floor(passedHours + 2), 1.8)
+      topic.rank = topic.score / Math.pow(passedHours + 2, 1.8)
 
       return topic
     })

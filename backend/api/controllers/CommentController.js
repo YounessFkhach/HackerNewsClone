@@ -23,13 +23,10 @@ module.exports = {
       // check if the parent exists
       // get the parent model to tesst the existance
       var Parent = null
-      console.log(comment)
       if(comment.type == 'sup') {
         Parent = Topic
-        console.log('topic')
       } else {
         Parent = Comment
-        console.log('comment')
       }
 
 
@@ -38,7 +35,6 @@ module.exports = {
       // if the parent doesn't exist we return an error
       if(!parent){
         res.notFound("parent doesn't exist")
-        console.log("parent not found")
         return
       }
 

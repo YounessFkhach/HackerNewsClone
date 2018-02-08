@@ -51,7 +51,14 @@ export default {
         type: 'SET_ACTIVE_TAB',
         activeTab: val
       })
+      //update the route
       this.$router.push(`/home/${val}`)
+      
+      // toggle a new fetch
+      this.$store.dispatch({
+        type: "FETCH",
+        activeTab: val,
+      });
     },
     isActiveTab(val) {
       return this.activeTab === val;

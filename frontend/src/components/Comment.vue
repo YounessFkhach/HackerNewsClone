@@ -3,6 +3,7 @@
     <div class="card" v-bind:style="{ borderLeftColor: border }">
       <div class="header">
         <div class="author">{{ comment.user_name }}</div>
+        • {{ comment.createdAt | humaniz }}
         <div class="score">{{ comment.score }}</div>
       </div>
       <div class="title wordwrap">
@@ -38,6 +39,8 @@
 <script>
 import { fetchComment, createComment, createLike } from '@/api'
 import Comment from '@/components/Comment'
+import twas from 'twas'
+
 export default {
   name: "comment",
   props: ['id', 'level'],
@@ -127,6 +130,11 @@ export default {
   beforeMount: async function() {
     this.showSubs = this.level < 8
     this.comment = (await fetchComment(this.id)).data
+  },
+  filters: {
+    humaniz (createdAt) {
+      return twas((new Date(createdAt)).getTime())
+    }
   },
   components: {
     Comment

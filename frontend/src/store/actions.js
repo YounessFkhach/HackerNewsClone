@@ -23,6 +23,11 @@ export default {
     var res = {}
     let topics = []
     let totalPages = 1
+    if(!page){
+      page = state.pages[activeTab].page
+    }
+    
+    // to start the loading animation
     commit({
       type: 'TOGGLE_FETCHING',
       fetching: true
@@ -55,6 +60,8 @@ export default {
       totalPages,
       tab: activeTab
     })
+    
+    // to stop the loading animation
     commit({
       type: 'TOGGLE_FETCHING',
       fetching: false
