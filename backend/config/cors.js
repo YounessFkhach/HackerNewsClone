@@ -75,7 +75,7 @@ module.exports.cors = {
 
   // headers: 'content-type: Authorization'
   allRoutes: true,
-  origin: 'http://192.168.1.66:8080,http://localhost:8080',
+  origin: 'http://192.168.1.66:8080,http://localhost:8080,http://localhost:5000,http://192.168.1.66:5000',
   credentials: true
 
 };

@@ -8,11 +8,7 @@
 var axios = require('axios')
 var promisify = require('../tools/promisify').promisify
 
-conf = {
-  client_id: '530745817303993',
-  redirect_uri: 'http://192.168.1.66:1337/auth/login',
-  client_secret: '006152f869bb21fa43cc3f11301c2220'
-}
+const redirectURI = 'http://192.168.1.66:5000/'
 
 module.exports = {
   signin: (req, res) => {
@@ -60,8 +56,7 @@ module.exports = {
       console.log(user.first_name, user.last_name)
 
       // finally we redirect to the home page
-      res.redirect('http://192.168.1.66:8080/')
-      // res.redirect('back')
+      res.redirect(redirectURI)
     } catch (err) {
       return res.serverError(err)
     }

@@ -39,6 +39,7 @@
 
 <script>
 import { createTopic } from '@/api'
+
 export default {
   data: () => ({
     title: '',
@@ -76,6 +77,14 @@ export default {
       
       this.sent = true
       // console.log(res)
+    },
+    isValidURL(str) {
+      var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+      if(!regex .test(str)) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   computed: {
@@ -86,8 +95,8 @@ export default {
       return this.showErrors && !(this.url || this.text)
     },
     urlError(){
-      return this.showErrors && this.url && !(this.url.length > 4)
-    }
+      return this.showErrors && this.url && !this.isValidURL(this.url)
+    },
   },
   beforeCreate(){
     if(!this.$store.state.user){

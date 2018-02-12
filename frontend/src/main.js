@@ -11,6 +11,9 @@ import Icon from 'vue-awesome/components/Icon'
 Vue.config.productionTip = false
 const store = createStore()
 
+Vue.config.devtools = true
+Vue.config.performance = true
+
 // view icons
 Vue.component('icon', Icon)
 /* eslint-disable no-new */
