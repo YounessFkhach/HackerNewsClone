@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { BACKEND_URL } from '@/config/conf'
 
 export default axios.create({
-    baseURL: 'http://192.168.1.66:1337/',
+    baseURL: BACKEND_URL,
     timeout: 10000,
     withCredentials: true,
     headers: {

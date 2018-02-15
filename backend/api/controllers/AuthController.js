@@ -7,18 +7,17 @@
 
 var axios = require('axios')
 var promisify = require('../tools/promisify').promisify
+const BACKEND_URL = require('../../config/constants').BACKEND_URL
+const FRONTEND_URL = require('../../config/constants').FRONTEND_URL
+const FB_CONF = require('../../config/constants').FB_CONF
+const FB_LOGIN_URL = require('../../config/constants').FB_LOGIN_URL
 
-const conf = {
-  client_id: '530745817303993',
-  redirect_uri: 'http://192.168.1.66:1337/auth/login',
-  client_secret: '006152f869bb21fa43cc3f11301c2220'
-}
-
-const redirectURI = 'http://192.168.1.66:5000/#'
+const redirectURI = FRONTEND_URL// const redirectURI = 'http://192.168.1.66:8080/#'
 
 module.exports = {
+
   signin: (req, res) => {
-    res.redirect('https://www.facebook.com/v2.12/dialog/oauth?client_id=530745817303993&&response_type=code&redirect_uri=http://192.168.1.66:1337/auth/login')
+    res.redirect(FB_LOGIN_URL)
   },
 
   login: async (req, res) => {
@@ -29,7 +28,7 @@ module.exports = {
       // getting the access_token
       const access_token = (await axios.get('https://graph.facebook.com/v2.12/oauth/access_token', {
         params: {
-          ...conf,
+          ...FB_CONF,
           code
         }
       })).data.access_token
@@ -45,10 +44,8 @@ module.exports = {
       // change the object structure to  save it
       userData.fbid = userData.id
       delete userData.id
-
       userData.profile_pic = userData.picture.data.url
       delete userData.picture
-
       userData.access_token = access_token
       userData.full_name = userData.first_name + ' ' + userData.last_name
 

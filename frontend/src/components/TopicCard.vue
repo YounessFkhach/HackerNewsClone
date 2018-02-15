@@ -10,7 +10,7 @@
     </div>
     <div class="card" @click="show">
         <div class="header">
-            <div class="title">
+            <div class="title wordwrap">
                 <a @click.prevent="open(topic.url, $event)" :href="topic.url || '/topic/' + topic.id" target="_blank">
                     {{ topic.title }}
                 </a>
@@ -184,7 +184,21 @@ a:hover {
 
 /* Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */
 .wordwrap { 
-   word-wrap: break-word;
+   /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
    color: black;      /* IE */
 }
 
